@@ -1,16 +1,20 @@
 {
   "name": "scope-for-maven-gh",
   "version": "1.0.0",
-  "main": "index.js",
+  "private": true,
+  "description": "scope for maven action",
+  "main": "dist/index.js",
   "scripts": {
+    "build": "tsc",
+    "format": "prettier --write **/*.ts",
+    "format-check": "prettier --check **/*.ts",
+    "release": "ncc build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
-    "@actions/core": "^1.2.0",
-    "@actions/github": "^1.1.0"
+    "@actions/core": "^1.2.0"
   }
 }
