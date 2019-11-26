@@ -711,6 +711,7 @@ function run() {
         try {
             yield exec.exec("ls -l");
             yield exec.exec("mvn -v");
+            yield exec.exec("docker version");
         }
         catch (error) {
             core.setFailed(error.message);
