@@ -8,7 +8,7 @@
     "build": "tsc",
     "format": "prettier --write **/*.ts",
     "format-check": "prettier --check **/*.ts",
-    "release": "ncc build",
+    "release": "ncc build lib/scope-for-maven.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
