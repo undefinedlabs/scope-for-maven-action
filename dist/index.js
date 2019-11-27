@@ -3453,14 +3453,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(310));
 const executor = __importStar(__webpack_require__(826));
 const exec = __importStar(__webpack_require__(230));
+const SCOPE_AGENT_VERSION = "0.2.2";
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            let scopeAgentVersion = core.getInput("agentVersion", { required: false }) || undefined;
-            let apikey = core.getInput("apikey", { required: true });
-            console.log(scopeAgentVersion);
-            yield executor.instrument(scopeAgentVersion);
-            exec.exec("cat pom.xml");
+            let dsn = core.getInput("dsn", { required: true });
+            core.exportVariable("SCOPE_DSN", dsn);
+            let executeTestPhase = core.getInput("executeTestPhase", { required: true });
+            let command = core.getInput("command", { required: true });
+            yield executor.instrument(SCOPE_AGENT_VERSION);
+            if (executeTestPhase == "true") {
+                yield exec.exec("sh -c \"" + command + "\"");
+            }
         }
         catch (error) {
             core.setFailed(error.message);
@@ -4034,43 +4038,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-let tempDirectory = process.env['RUNNER_TEMP'] || '';
-const core = __importStar(__webpack_require__(310));
 const exec = __importStar(__webpack_require__(230));
 const io = __importStar(__webpack_require__(954));
 const tc = __importStar(__webpack_require__(602));
-const path = __importStar(__webpack_require__(622));
-const IS_WINDOWS = process.platform === 'win32';
-if (!tempDirectory) {
-    let baseLocation;
-    if (IS_WINDOWS) {
-        // On windows use the USERPROFILE env variable
-        baseLocation = process.env['USERPROFILE'] || 'C:\\';
-    }
-    else {
-        if (process.platform === 'darwin') {
-            baseLocation = '/Users';
-        }
-        else {
-            baseLocation = '/home';
-        }
-    }
-    tempDirectory = path.join(baseLocation, 'actions', 'temp');
-}
-function instrument(agentVersion = "0.2.2") {
+function instrument(agentVersion) {
     return __awaiter(this, void 0, void 0, function* () {
         const workdir = process.cwd();
-        let scopeAgentPath = tc.find("scope-java-agent", agentVersion);
-        if (scopeAgentPath) {
-            core.debug(`Scope Agent found in cache ${scopeAgentPath}`);
-        }
-        else {
-            let destinationFolder = path.join(tempDirectory, 'temp_' + Math.floor(Math.random() * 2000000000));
-            yield io.mkdirP(destinationFolder);
-            yield exec.exec("mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.1:copy -Dartifact=com.undefinedlabs.scope:scope-agent:" + agentVersion + ":jar -Dtransitive=false -DoutputDirectory=" + destinationFolder);
-            scopeAgentPath = yield tc.cacheFile(path.join(destinationFolder, "scope-agent-" + agentVersion + ".jar"), "scope-agent-" + agentVersion + ".jar", "scope-java-agent", agentVersion);
-        }
-        yield exec.exec("docker run -v " + workdir + ":/home/project -e \"SCOPE_AGENT_PATH=" + path.join(scopeAgentPath, "scope-agent-" + agentVersion + ".jar") + "\" codescope/scope-instrumentation-for-maven");
+        const scopeAgentPath = yield tc.downloadTool("https://repo1.maven.org/maven2/com/undefinedlabs/scope/scope-agent/" + agentVersion + "/scope-agent-" + agentVersion + ".jar");
+        yield io.mv(scopeAgentPath, scopeAgentPath + ".jar");
+        yield exec.exec("sh -c \"docker run -v " + workdir + ":/home/project -e \\\"SCOPE_AGENT_PATH=" + scopeAgentPath + ".jar\\\" codescope/scope-instrumentation-for-maven\"");
     });
 }
 exports.instrument = instrument;

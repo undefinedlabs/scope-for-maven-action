@@ -1,8 +1,16 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'Scope for Maven'
+description: 'Scope for Maven'
 inputs:
-  apikey:
-    description: 'Scope APIKEY'
+  dsn:
+    description: 'Scope DSN'
+    required: true
+  executeTestPhase:
+    description: 'Flag to indicate if test phase must be executed. default: true'
+    default: 'true'
+    required: true
+  command:
+    description: 'Command to execute test. default: mvn verify'
+    default: 'mvn verify'
     required: true
 runs:
   using: 'node12'
