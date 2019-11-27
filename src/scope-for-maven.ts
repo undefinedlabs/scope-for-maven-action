@@ -2,12 +2,21 @@ import * as core from '@actions/core'
 import * as executor from './executor'
 import * as exec from "@actions/exec";
 
+const SCOPE_AGENT_VERSION = "0.2.2";
+
 async function run() {
     try {
-        let apikey = core.getInput("apikey", {required: true})
+        let dsn = core.getInput("dsn", {required: true})
+        core.exportVariable("SCOPE_DSN", dsn);
 
-        await executor.instrument();
-        exec.exec("cat pom.xml")
+        let executeTestPhase = core.getInput("executeTestPhase", {required: true});
+        let command = core.getInput("command", {required: true});
+
+        await executor.instrument(SCOPE_AGENT_VERSION);
+
+        if(executeTestPhase == "true"){
+            await exec.exec("sh -c \""+command+"\"");
+        }
 
     } catch (error) {
         core.setFailed(error.message)
