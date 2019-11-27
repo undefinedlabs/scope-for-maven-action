@@ -1,5 +1,6 @@
 name: 'Scope for Maven'
-description: 'Scope for Maven'
+author: 'UndefinedLabs'
+description: 'Setup Scope for Maven to improve your MTTR of your broken builds and manage your flaky tests.'
 inputs:
   dsn:
     description: 'Scope DSN'
@@ -15,3 +16,6 @@ inputs:
 runs:
   using: 'node12'
   main: 'dist/index.js'
+branding:
+  icon: 'check-square'
+  color: 'purple'
