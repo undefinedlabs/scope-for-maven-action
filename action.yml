@@ -5,12 +5,12 @@ inputs:
   dsn:
     description: 'Scope DSN'
     required: true
-  execute-command:
-    description: 'Flag to indicate if the command must be executed. default: true'
+  run-tests:
+    description: 'Flag to indicate if tests must be run. default: true'
     default: 'true'
     required: true
   command:
-    description: 'Command to execute for your test phase. default: mvn verify'
+    description: 'Command to run your tests. default: mvn verify'
     default: 'mvn verify'
     required: true
 runs:

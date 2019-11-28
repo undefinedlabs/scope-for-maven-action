@@ -3459,7 +3459,7 @@ function run() {
         try {
             let dsn = core.getInput("dsn", { required: true });
             core.exportVariable("SCOPE_DSN", dsn);
-            let executeTestPhase = core.getInput("execute-command", { required: true });
+            let executeTestPhase = core.getInput("run-tests", { required: true });
             let command = core.getInput("command", { required: true });
             yield executor.instrument(SCOPE_AGENT_VERSION);
             if (executeTestPhase == "true") {
