@@ -1,5 +1,5 @@
 <p align="center">
-  <img style="max-width: 200px" src="./scope_logo.svg">
+  <img src="./scope_logo.svg">
 </p>
 
 # Scope for Maven Action
