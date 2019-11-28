@@ -3459,7 +3459,7 @@ function run() {
         try {
             let dsn = core.getInput("dsn", { required: true });
             core.exportVariable("SCOPE_DSN", dsn);
-            let executeTestPhase = core.getInput("executeTestPhase", { required: true });
+            let executeTestPhase = core.getInput("run-tests", { required: true });
             let command = core.getInput("command", { required: true });
             yield executor.instrument(SCOPE_AGENT_VERSION);
             if (executeTestPhase == "true") {
@@ -4045,7 +4045,9 @@ function instrument(agentVersion) {
     return __awaiter(this, void 0, void 0, function* () {
         const workdir = process.cwd();
         const scopeAgentPath = yield tc.downloadTool("https://repo1.maven.org/maven2/com/undefinedlabs/scope/scope-agent/" + agentVersion + "/scope-agent-" + agentVersion + ".jar");
-        yield io.mv(scopeAgentPath, scopeAgentPath + ".jar");
+        if (!scopeAgentPath.endsWith(".jar")) {
+            yield io.mv(scopeAgentPath, scopeAgentPath + ".jar");
+        }
         yield exec.exec("sh -c \"docker run -v " + workdir + ":/home/project -e \\\"SCOPE_AGENT_PATH=" + scopeAgentPath + ".jar\\\" codescope/scope-instrumentation-for-maven\"");
     });
 }
