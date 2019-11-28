@@ -20,7 +20,7 @@ steps:
     with:
       dsn: ${{secrets.SCOPE_DSN}} #required
       run-tests: true #optional - default is 'true'
-      command: mvn verify #optional - default is 'mvn verify'
+      command: mvn verify # optional - default is 'mvn verify'
 ```
 
 > Note: This assumes that you've set your Scope DSN inside Settings > Secrets as `SCOPE_DSN`
