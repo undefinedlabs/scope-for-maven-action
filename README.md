@@ -19,8 +19,8 @@ steps:
     uses: undefinedlabs/scope-for-maven-action@v1.0.0
     with:
       dsn: ${{secrets.SCOPE_DSN}} #required
-      executeTestPhase: true #optional - default is 'true'
-      command: 'mvn verify' #optional - default is 'mvn verify'
+      execute-test-phase: true #optional - default is 'true'
+      command: mvn verify #optional - default is 'mvn verify'
 ```
 
 > Note: This assumes that you've set your Scope DSN inside Settings > Secrets as `SCOPE_DSN`
