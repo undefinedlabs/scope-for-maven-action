@@ -1,6 +1,11 @@
 # Scope for Maven Action
 
-### Easy integration with Scope for Java projects based on Maven
+GitHub Action to run your tests automatically instrumented with the [Scope Java agent](http://home.undefinedlabs.com/goto/java-agent).
+
+## About Scope
+
+[Scope](https://scope.dev) gives developers production-level visibility on every test for every app – spanning mobile, monoliths, and microservices.
+
 
 >The latest release of this Action is based on Scope Jave Agent v0.2.2
 
