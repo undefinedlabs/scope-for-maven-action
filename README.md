@@ -19,7 +19,7 @@ steps:
     uses: undefinedlabs/scope-for-maven-action@v1.0.0
     with:
       dsn: ${{secrets.SCOPE_DSN}} #required
-      execute-test-phase: true #optional - default is 'true'
+      run-tests: true #optional - default is 'true'
       command: mvn verify #optional - default is 'mvn verify'
 ```
 
