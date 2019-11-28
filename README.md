@@ -2,6 +2,8 @@
 
 ### Easy integration with Scope for Java projects based on Maven
 
+>The latest release of this Action is based on Scope Jave Agent v0.2.2
+
 ## Usage
 
 Add a step to your GitHub Actions workflow YAML that uses this action:
