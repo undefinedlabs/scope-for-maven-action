@@ -1,5 +1,5 @@
 name: 'Scope for Maven'
-author: 'UndefinedLabs'
+author: 'Daniel Rodriguez <@drodriguezhdez> | UndefinedLabs'
 description: 'Setup Scope for Maven to improve your MTTR of your broken builds and manage your flaky tests.'
 inputs:
   dsn:
