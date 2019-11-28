@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="./scope_logo.svg">
-</p>
+![logo](scope_logo.svg)
 
 # Scope for Maven Action
 
