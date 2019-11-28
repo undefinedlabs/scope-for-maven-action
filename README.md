@@ -13,7 +13,7 @@ steps:
     uses: actions/setup-java@v1
     with:
       java-version: 1.8 
-  - Scope for Maven Action
+  - name: Scope for Maven Action
     uses: undefinedlabs/scope-for-maven-action@v1.0.0
     with:
       dsn: ${{secrets.SCOPE_DSN}} #required
