@@ -1,4 +1,4 @@
-![logo](scope_logo.svg)
+![logo](scope_logo.png)
 
 # Scope for Maven Action
 
