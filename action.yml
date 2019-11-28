@@ -5,7 +5,7 @@ inputs:
   dsn:
     description: 'Scope DSN'
     required: true
-  executeTestPhase:
+  execute-test-phase:
     description: 'Flag to indicate if test phase must be executed. default: true'
     default: 'true'
     required: true
