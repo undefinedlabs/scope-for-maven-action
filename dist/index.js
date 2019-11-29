@@ -4041,14 +4041,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const exec = __importStar(__webpack_require__(230));
 const io = __importStar(__webpack_require__(954));
 const tc = __importStar(__webpack_require__(602));
+const IS_WINDOWS = process.platform === 'win32';
 function instrument(agentVersion) {
     return __awaiter(this, void 0, void 0, function* () {
-        const workdir = process.cwd();
-        const scopeAgentPath = yield tc.downloadTool("https://repo1.maven.org/maven2/com/undefinedlabs/scope/scope-agent/" + agentVersion + "/scope-agent-" + agentVersion + ".jar");
+        let scopeAgentPath = yield tc.downloadTool("https://repo1.maven.org/maven2/com/undefinedlabs/scope/scope-agent/" + agentVersion + "/scope-agent-" + agentVersion + ".jar");
         if (!scopeAgentPath.endsWith(".jar")) {
             yield io.mv(scopeAgentPath, scopeAgentPath + ".jar");
         }
-        yield exec.exec("sh -c \"docker run -v " + workdir + ":/home/project -e \\\"SCOPE_AGENT_PATH=" + scopeAgentPath + ".jar\\\" codescope/scope-instrumentation-for-maven\"");
+        let mavenInstrumentatorPath = yield tc.downloadTool("https://repo1.maven.org/maven2/com/undefinedlabs/scope/scope-instrumentation-for-maven/0.1.0/scope-instrumentation-for-maven-0.1.0.jar");
+        if (!mavenInstrumentatorPath.endsWith(".jar")) {
+            yield io.mv(mavenInstrumentatorPath, mavenInstrumentatorPath + ".jar");
+        }
+        if (IS_WINDOWS) {
+            scopeAgentPath = scopeAgentPath.replace("\\", "\\\\");
+            mavenInstrumentatorPath = mavenInstrumentatorPath.replace("\\", "\\\\");
+        }
+        yield exec.exec("sh -c \"find . -name \\\"pom.xml\\\" -exec java -jar " + mavenInstrumentatorPath + ".jar \\\"" + scopeAgentPath + ".jar\\\" {} \\;\"");
     });
 }
 exports.instrument = instrument;
