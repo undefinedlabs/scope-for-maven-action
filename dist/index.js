@@ -3453,7 +3453,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(310));
 const executor = __importStar(__webpack_require__(826));
 const exec = __importStar(__webpack_require__(230));
-const SCOPE_AGENT_VERSION = "0.2.2";
+const SCOPE_AGENT_VERSION = "0.2.4";
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -4041,22 +4041,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const exec = __importStar(__webpack_require__(230));
 const io = __importStar(__webpack_require__(954));
 const tc = __importStar(__webpack_require__(602));
-const IS_WINDOWS = process.platform === 'win32';
 function instrument(agentVersion) {
     return __awaiter(this, void 0, void 0, function* () {
-        let scopeAgentPath = yield tc.downloadTool("https://repo1.maven.org/maven2/com/undefinedlabs/scope/scope-agent/" + agentVersion + "/scope-agent-" + agentVersion + ".jar");
+        const workdir = process.cwd();
+        const scopeAgentPath = yield tc.downloadTool("https://repo1.maven.org/maven2/com/undefinedlabs/scope/scope-agent/" + agentVersion + "/scope-agent-" + agentVersion + ".jar");
         if (!scopeAgentPath.endsWith(".jar")) {
             yield io.mv(scopeAgentPath, scopeAgentPath + ".jar");
         }
-        let mavenInstrumentatorPath = yield tc.downloadTool("https://repo1.maven.org/maven2/com/undefinedlabs/scope/scope-instrumentation-for-maven/0.1.0/scope-instrumentation-for-maven-0.1.0.jar");
+        const mavenInstrumentatorPath = yield tc.downloadTool("https://repo1.maven.org/maven2/com/undefinedlabs/scope/scope-instrumentation-for-maven/0.1.0/scope-instrumentation-for-maven-0.1.0.jar");
         if (!mavenInstrumentatorPath.endsWith(".jar")) {
             yield io.mv(mavenInstrumentatorPath, mavenInstrumentatorPath + ".jar");
         }
-        if (IS_WINDOWS) {
-            scopeAgentPath = scopeAgentPath.replace("\\", "\\\\");
-            mavenInstrumentatorPath = mavenInstrumentatorPath.replace("\\", "\\\\");
-        }
-        yield exec.exec("sh -c \"find . -name \\\"pom.xml\\\" -exec java -jar " + mavenInstrumentatorPath + ".jar \\\"" + scopeAgentPath + ".jar\\\" {} \\;\"");
+        yield exec.exec("sh -c \"find " + workdir + " -name \\\"pom.xml\\\" -exec java -jar " + mavenInstrumentatorPath + ".jar \\\"" + scopeAgentPath + ".jar\\\" {} \\;\"");
     });
 }
 exports.instrument = instrument;
