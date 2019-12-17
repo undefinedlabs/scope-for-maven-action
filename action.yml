@@ -1,6 +1,6 @@
 name: 'Scope for Maven'
 author: 'Daniel Rodriguez <@drodriguezhdez> | UndefinedLabs'
-description: 'Setup Scope for Maven to improve your MTTR of your broken builds and manage your flaky tests.'
+description: 'Automatically instruments and run your tests using Scope Java agent.'
 inputs:
   dsn:
     description: 'Scope DSN'
