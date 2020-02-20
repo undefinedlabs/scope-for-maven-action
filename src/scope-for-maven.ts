@@ -2,7 +2,7 @@ import * as core from '@actions/core'
 import * as executor from './executor'
 import * as exec from "@actions/exec";
 
-const SCOPE_AGENT_VERSION = "0.2.5-beta.13";
+const SCOPE_AGENT_VERSION = "0.3.0-beta.1";
 
 async function run() {
     try {

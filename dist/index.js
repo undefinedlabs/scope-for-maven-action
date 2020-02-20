@@ -3453,7 +3453,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(310));
 const executor = __importStar(__webpack_require__(826));
 const exec = __importStar(__webpack_require__(230));
-const SCOPE_AGENT_VERSION = "0.2.5-beta.13";
+const SCOPE_AGENT_VERSION = "0.3.0-beta.1";
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
