@@ -9,7 +9,7 @@
     "format": "prettier --write **/*.ts",
     "format-check": "prettier --check **/*.ts",
     "release": "ncc build lib/scope-for-maven.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +19,16 @@
     "@actions/exec": "^1.0.1",
     "@actions/io": "^1.0.1",
     "@actions/tool-cache": "^1.1.2",
-    "@types/node": "^12.12.14"
+    "@types/node-fetch": "^2.5.5",
+    "@types/xml2js": "^0.4.5",
+    "node-fetch": "^2.6.0",
+    "xml2js": "^0.4.23"
+  },
+  "devDependencies": {
+    "@types/jest": "^25.1.3",
+    "@types/node": "^12.12.28",
+    "jest": "^25.1.0",
+    "ts-jest": "^25.2.1",
+    "typescript": "^3.8.2"
   }
 }

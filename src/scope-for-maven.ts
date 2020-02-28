@@ -2,8 +2,6 @@ import * as core from '@actions/core'
 import * as executor from './executor'
 import * as exec from "@actions/exec";
 
-const SCOPE_AGENT_VERSION = "0.3.0";
-
 async function run() {
     try {
         let dsn = core.getInput("dsn", {required: true})
@@ -12,7 +10,7 @@ async function run() {
         let executeTestPhase = core.getInput("run-tests", {required: true});
         let command = core.getInput("command", {required: true});
 
-        await executor.instrument(SCOPE_AGENT_VERSION);
+        await executor.instrument(false);
 
         if(executeTestPhase == "true"){
             await exec.exec("sh -c \""+command+"\"");
