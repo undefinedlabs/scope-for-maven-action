@@ -11914,19 +11914,18 @@ const tc = __importStar(__webpack_require__(602));
 const version_parser_1 = __webpack_require__(368);
 const scopeAgentMetadataURL = "https://repo1.maven.org/maven2/com/undefinedlabs/scope/scope-agent/maven-metadata.xml";
 const scopeMavenInstrMetadataURL = "https://repo1.maven.org/maven2/com/undefinedlabs/scope/scope-instrumentation-for-maven/maven-metadata.xml";
+const scopeNoTrackDep = "_scope_notrackdep";
 function instrument(allowBeta) {
     return __awaiter(this, void 0, void 0, function* () {
         const workdir = process.cwd();
         const [agentVersion, instrVersion] = yield Promise.all([version_parser_1.getVersionToUse(scopeAgentMetadataURL, allowBeta), version_parser_1.getVersionToUse(scopeMavenInstrMetadataURL, false)]);
         const scopeAgentPath = yield tc.downloadTool(`https://repo1.maven.org/maven2/com/undefinedlabs/scope/scope-agent/${agentVersion}/scope-agent-${agentVersion}.jar`);
-        if (!scopeAgentPath.endsWith(".jar")) {
-            yield io.mv(scopeAgentPath, scopeAgentPath + ".jar");
-        }
+        const finalScopeAgentPath = (!scopeAgentPath.endsWith(".jar")) ? scopeAgentPath + scopeNoTrackDep + ".jar" : scopeAgentPath.replace(".jar", scopeNoTrackDep + ".jar");
+        yield io.mv(scopeAgentPath, finalScopeAgentPath);
         const mavenInstrumentatorPath = yield tc.downloadTool(`https://repo1.maven.org/maven2/com/undefinedlabs/scope/scope-instrumentation-for-maven/${instrVersion}/scope-instrumentation-for-maven-${instrVersion}.jar`);
-        if (!mavenInstrumentatorPath.endsWith(".jar")) {
-            yield io.mv(mavenInstrumentatorPath, mavenInstrumentatorPath + ".jar");
-        }
-        yield exec.exec("sh -c \"find " + workdir + " -name \\\"pom.xml\\\" -exec java -jar " + mavenInstrumentatorPath + ".jar \\\"" + scopeAgentPath + ".jar\\\" {} \\;\"");
+        const finalMavenInstrumentatorPath = (!mavenInstrumentatorPath.endsWith(".jar")) ? mavenInstrumentatorPath + scopeNoTrackDep + ".jar" : mavenInstrumentatorPath.replace(".jar", scopeNoTrackDep + ".jar");
+        yield io.mv(mavenInstrumentatorPath, finalMavenInstrumentatorPath);
+        yield exec.exec("sh -c \"find " + workdir + " -name \\\"pom.xml\\\" -exec java -jar " + finalMavenInstrumentatorPath + " \\\"" + finalScopeAgentPath + "\\\" {} \\;\"");
     });
 }
 exports.instrument = instrument;
