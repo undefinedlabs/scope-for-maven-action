@@ -12,7 +12,7 @@ export async function instrument(allowBeta:boolean): Promise<void> {
     const [agentVersion, instrVersion] = await Promise.all([getVersionToUse(scopeAgentMetadataURL, allowBeta), getVersionToUse(scopeMavenInstrMetadataURL, false)])
 
     const scopeAgentPath = await tc.downloadTool(`https://repo1.maven.org/maven2/com/undefinedlabs/scope/scope-agent/${agentVersion}/scope-agent-${agentVersion}.jar`);
-    const finalScopeAgentPath = (!scopeAgentPath.endsWith(".jar")) ? scopeAgentPath + scopeNoTrackDep + ".jar" : scopeAgentPath.replace(".jar", scopeNoTrackDep+".jar");
+const finalScopeAgentPath = `${scopeAgentPath.replace('.jar', '')}${scopeNoTrackDep}.jar`
     await io.mv(scopeAgentPath, finalScopeAgentPath);
 
     const mavenInstrumentatorPath = await tc.downloadTool(`https://repo1.maven.org/maven2/com/undefinedlabs/scope/scope-instrumentation-for-maven/${instrVersion}/scope-instrumentation-for-maven-${instrVersion}.jar`);
